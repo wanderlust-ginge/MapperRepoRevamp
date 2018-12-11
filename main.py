@@ -80,7 +80,7 @@ def RemoveNugetExe(path):
                 if not os.listdir(root):
                     os.removedirs(root)
                 return
-    error_log.LogError("Not find nuget.exe in dir " + path)
+    error_log.LogError("Could not find nuget.exe in dir " + path)
 
 
 def MoveInMappingFiles(proj_name):
@@ -170,7 +170,7 @@ def UpdateMgenJson(proj_name):
 error_log = ErrorLog()
 subfolders = [f.path for f in os.scandir(main_dir_path) if f.is_dir()]
 for dir in subfolders:
-    if dir.find("UserAdmin.Mapper") != -1:
+    if dir.find(".Mapper") != -1 and dir.find("Blending") == -1:
         proj_name = dir.split('\\')[-1].split('.')[0]
         git_repo = GitRepo()
         git_repo.SetProject(proj_name)
@@ -187,6 +187,7 @@ for dir in subfolders:
             MoveInMappingFiles(proj_name)
             # Add Mapper Specific csproj file
             AddCustomFile(join(common_file_path, 'mapper_dir'), 'AppName.Mapper.csproj', proj_name, join(main_dir_path, proj_name, 'src', proj_name + '.Mapper'))
+            AddCustomFile(common_file_path, 'commit_stuff_to_git.bat', proj_name, main_dir_path)
             # Update mgen.json file
             UpdateMgenJson(proj_name)
             # Add mapper proj to main project
@@ -201,6 +202,13 @@ for dir in subfolders:
             except:
                 error_log.LogError("Unable to build " + proj_name + " Project")
             # if it works, then check stuff in
-            test = result
+            if result == 0:
+                add_project_path = join(main_dir_path, "commit_stuff_to_git.bat")
+                subprocess.call([add_project_path])
+                os.remove(add_project_path)
+            else:
+                error_log.LogError("Build Error for " + proj_name + " Project")
+
+
             # we should be done then
 

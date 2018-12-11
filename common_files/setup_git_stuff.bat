@@ -5,7 +5,6 @@ git clone %HOST%:%ORGANIZATION%/%PROJECT%
 PUSHD %PROJECT%
 git checkout master
 git pull
-git checkout -b combineAppsAndMappers
 
 PUSHD src
 mkdir %PROJECT%.Mapper

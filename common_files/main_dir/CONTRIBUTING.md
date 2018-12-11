@@ -3,12 +3,19 @@
 ## Prerequisites
 
 * Install [.NET Core SDK version 2.1.400 or later](https://dotnet.microsoft.com/download)
-* Install the latest global .NET Core Cake tool by running `dotnet tool install -g Cake.Tool` which is only needed for using the CLI scripts.
 * Have the NuGet packages `M.nupkg` and `MGen.nupkg` on local feed. This can be done by placing them in [%STAR_NUGET%](./%25STAR_NUGET%25) folder or by setting the environment variable to the folder where they are located, example: `set STAR_NUGET="C:\FolderContainingNuGetPackages"`
   * `M.nupkg` may be built from the [DoctorM](https://github.com/Starcounter/DoctorM) git repository while `MGen.nupkg` may be built from [MGen](https://github.com/Starcounter/MGen).
 * [Visual Studio 2017](https://www.visualstudio.com/downloads/) --version 15.8.2 or higher.
   * Make sure .NET Framework 4.7.2 is installed in VS 2017.  If not, run the VS Installer, select "Modify" and then in "Individual Components", select that version and continue on.
 * [DebugView](https://docs.microsoft.com/en-us/sysinternals/downloads/debugview) which is used to debug the mapper.
+
+### Build scripts specific prerequisites
+
+* Install the latest global .NET Core Cake tool by running `dotnet tool install -g Cake.Tool`.
+* Add [nuget.exe](https://www.nuget.org/downloads) to PATH.
+* Make sure that the MSBuild version that is used comes from your Visual Studio installation and not from a previous installation of .NET Framework. The easiest way to test this is to run `msbuild /version` which should return a `15.X` version. If it returns something like `4.X`, then you have to either
+    * add `C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin` to PATH (check both System AND User).  Make sure it's inserted before any `C:\Windows\Microsoft.NET\Framework\v4.0.30319`
+    * or run `C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\Tools\VsDevCmd.bat` which will only set proper environment variable values for the current process.
 
 ## How to build and run
 
