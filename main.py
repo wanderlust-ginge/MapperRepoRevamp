@@ -152,7 +152,9 @@ def UpdateMgenJson(proj_name):
         with open(temp_file_path) as mgen_file:
             output_file = open(mgen_file_path, 'w+')
             for line in mgen_file:
-                if line.find('appAssembly') != -1:
+                if line.find('..\\\shared') != -1:
+                    output_file.write(line.replace('..\\\shared', 'shared'))
+                elif line.find('appAssembly') != -1:
                     output_file.write('  "appAssembly": "..\\\$app$\\\\bin\\\$config$\\\$app$.exe",\n')
                 elif line.find('mapperOutput') != -1:
                     output_file.write('  "mapperOutput": "..\\\$app$\\\\bin\\\$config$\\\$app$.map.cpp",\n')
